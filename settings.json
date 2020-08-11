@@ -1,0 +1,15 @@
+{
+    "PORT": 3000
+    , "BASIC_PATH": ""
+    , "BANNER_LOCATION": "/resource/banner.txt"
+    , "LOG_PATH" : "/logs"
+    , "DATABASE": {
+        "SCHEMA": "bootstrap"
+        , "USERNAME"    : "root"
+        , "PASSWORD"    : "root"
+        , "OPTIONS"     : {
+            "host": "127.0.0.1"
+            , "dialect": "mysql"
+        }
+    }
+}
