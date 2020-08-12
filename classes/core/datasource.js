@@ -1,30 +1,55 @@
 const Sequelize = require("sequelize");
 const config = require("./config").DATABASE;
 
+const {
+    User
+} = require("../model");
+
 const datasource = null;
 const sequelize = {
     datasource
+    , model: {}
 };
 
 module.exports = function() {
-    if( null != sequelize.datasource ) {
-        return sequelize;
-    }
+    return new Promise(async (resolve, reject) => {
+        if( null != sequelize.datasource ) {
+            return sequelize;
+        }
+        
+        /**
+         *  DB Connection 생성
+         */
+        function creationDatasource() {
+            return new Sequelize(
+                config.SCHEMA
+                , config.USERNAME
+                , config.PASSWORD
+                , config.OPTIONS
+            );
+        }
     
-    function creationDatasource() {
-        return new Sequelize(
-            config.SCHEMA
-            , config.USERNAME
-            , config.PASSWORD
-            , config.OPTIONS
-        );
-    }
-
-    function init() {
-        sequelize.datasource = creationDatasource();
-    }
-
-    init();
-
-    return sequelize;
+        /**
+         *  모델 생성 등록
+         */
+        function setModels() {
+            sequelize.model.User = User( sequelize.datasource );
+        }
+    
+        /**
+         *  초기화
+         */
+        async function init() {
+            return new Promise( async ( resolve) => {
+                sequelize.datasource = creationDatasource();
+                setModels();
+        
+                await sequelize.datasource.sync();
+                resolve();
+            });
+        }
+    
+        await init();
+        resolve( sequelize );
+    });
 };

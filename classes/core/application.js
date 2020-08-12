@@ -1,11 +1,15 @@
+const { logger } = require("./logger");
 const config = require("./config");
 const fs = require("fs");
 const express = require("express");
 const app = express();
+
 const middlewareManager = require("./middlewareManager");
+const datasource = require("./datasource");
 
-module.exports = function() {
+let sequelize = null;
 
+module.exports = async function() {
     /**
      * 배너 파일 읽기
      */
@@ -21,13 +25,19 @@ module.exports = function() {
         middlewareManager( app );
     }
 
+    async function setSequelize() {
+        sequelize = await datasource();
+        logger.info("Datasource Creation Complete.");
+    }
+
     /**
      * 초기화 함수
      */
-    function init() {
+    async function init() {
         readBanner();
         setMiddlewareManager();
+        await setSequelize();
     }
 
-    init();
+    await init();
 }
