@@ -1,9 +1,7 @@
 const Sequelize = require("sequelize");
-const config = require("./config").DATABASE;
+const config = require("../config").DATABASE;
 
-const {
-    User
-} = require("../model");
+const models = require("../../model");
 
 const datasource = null;
 const sequelize = {
@@ -33,7 +31,7 @@ module.exports = function() {
          *  모델 생성 등록
          */
         function setModels() {
-            sequelize.model.User = User( sequelize.datasource );
+            sequelize.model = models( sequelize.datasource );
         }
     
         /**
