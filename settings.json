@@ -12,5 +12,9 @@
             , "dialect": "mysql"
         }
     }
+    , "UPLOAD": {
+        "PATH" : "/uploads"
+        , "LIMIT" : 10485760
+    }
     , "SECRET_OR_KEY": "hello"
 }
