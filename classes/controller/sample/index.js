@@ -1,5 +1,5 @@
 const controller = require("./controller");
-const { upload } = require("../../core/uploadManager");
+const uploadManager = require("../../core/uploadManager");
 const router = require("express").Router();
 
 module.exports = ( app, model ) => {
@@ -7,7 +7,7 @@ module.exports = ( app, model ) => {
     
     router.post(
         "/upload"
-        , upload.single("file")
+        , uploadManager("sample").single("file")
         , sample.upload
     );
         
